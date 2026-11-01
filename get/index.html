@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Cary Street</title>
+<meta name="description" content="Get Cary Street, an arcade driving game set in Virginia, for Android and iPhone.">
+<style>
+  :root { --bg: #f7f5f0; --text: #1d1f24; --muted: #5a5f69; --accent: #c4261f; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #12141a; --text: #e9e7e2; --muted: #a3a7b0; --accent: #ff6a5c; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px; text-align: center; background: var(--bg); color: var(--text);
+    font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 4px; }
+  p { margin: 0 0 20px; color: var(--muted); }
+  a { display: block; margin: 10px auto; max-width: 280px; padding: 12px 16px; border-radius: 8px;
+      background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; }
+  a[hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Cary Street</h1>
+  <p id="note">An arcade driving game set in Virginia.</p>
+  <a id="play" href="https://play.google.com/store/apps/details?id=com.carystreetdev.cargame">Get it on Google Play</a>
+  <a id="ios" href="#" hidden>Download on the App Store</a>
+</main>
+<script>
+  // The sticker's QR code comes here: this sends each phone to its store.
+  // Set IPHONE_LIVE to true when the iPhone version is out on the App Store.
+  var IPHONE_LIVE = false;
+  var APP_STORE_ID = "6827315591";
+  var PLAY = document.getElementById("play").href;
+  var IOS = IPHONE_LIVE ? "https://apps.apple.com/app/id" + APP_STORE_ID : "";
+
+  function storeFor(ua, touches) {
+    if (/android/i.test(ua)) return PLAY;
+    if (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && touches > 1)) return IOS || "ios-soon";
+    return "";
+  }
+
+  var to = storeFor(navigator.userAgent, navigator.maxTouchPoints || 0);
+  if (IOS) {
+    document.getElementById("ios").href = IOS;
+    document.getElementById("ios").hidden = false;
+  }
+  if (to === "ios-soon") document.getElementById("note").textContent = "Coming soon to iPhone.";
+  else if (to) location.replace(to);
+</script>
+</body>
+</html>
